@@ -59,4 +59,43 @@ class ShopServiceTest {
         assertEquals(actualMitInDelivery, expected);
         assertEquals(actualMitCompleted, expected);
     }
+
+    @Test
+    void updateOrderTest_whenNewStatusGiven_thenReturnUpdateOrderHasTheNewStatus() {
+        // GIVEN
+        ShopService shopService = new ShopService();
+        List<String> productsIds = List.of("1");
+        shopService.addOrder(productsIds);
+
+        String tempId = shopService.getOrderRepo().getOrders().getFirst().id();
+        OrderStatus newOrderStatus = OrderStatus.COMPLETED;
+
+        // WHEN
+        shopService.updateOrder(tempId, newOrderStatus);
+        OrderStatus updatedStatus = shopService.getOrderRepo().getOrders().getFirst().orderStatus();
+
+        // THEN
+        assertEquals(newOrderStatus, updatedStatus);
+    }
+
+    @Test
+    void updateOrderTest_whenStatusFromProcessingToInDelivery_thenOrderWithProcessingDoesNotExist() {
+        // GIVEN
+        ShopService shopService = new ShopService();
+        List<String> productsIds = List.of("1");
+        shopService.addOrder(productsIds);
+
+        String tempId = shopService.getOrderRepo().getOrders().getFirst().id();
+        OrderStatus newOrderStatus = OrderStatus.IN_DELIVERY;
+
+        // WHEN
+        shopService.updateOrder(tempId, newOrderStatus);
+
+        // THEN
+        List<Order> ordersWithProcessing = shopService.getOrdersByOrderStatus(OrderStatus.PROCESSING);
+        assertEquals(0, ordersWithProcessing.size());
+
+        List<Order> ordersWithInDelivery = shopService.getOrdersByOrderStatus(OrderStatus.IN_DELIVERY);
+        assertEquals(1, ordersWithInDelivery.size());
+    }
 }
