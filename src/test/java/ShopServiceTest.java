@@ -67,12 +67,12 @@ class ShopServiceTest {
         List<String> productsIds = List.of("1");
         shopService.addOrder(productsIds);
 
-        String tempId = shopService.getOrderRepo().getOrders().getFirst().id();
+        String tempId = shopService.getOrderRepo().getOrders().get(0).id();
         OrderStatus newOrderStatus = OrderStatus.COMPLETED;
 
         // WHEN
         shopService.updateOrder(tempId, newOrderStatus);
-        OrderStatus updatedStatus = shopService.getOrderRepo().getOrders().getFirst().orderStatus();
+        OrderStatus updatedStatus = shopService.getOrderRepo().getOrders().get(0).orderStatus();
 
         // THEN
         assertEquals(newOrderStatus, updatedStatus);
@@ -85,7 +85,7 @@ class ShopServiceTest {
         List<String> productsIds = List.of("1");
         shopService.addOrder(productsIds);
 
-        String tempId = shopService.getOrderRepo().getOrders().getFirst().id();
+        String tempId = shopService.getOrderRepo().getOrders().get(0).id();
         OrderStatus newOrderStatus = OrderStatus.IN_DELIVERY;
 
         // WHEN
