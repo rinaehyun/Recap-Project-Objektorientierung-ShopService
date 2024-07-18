@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class ShopServiceTest {
 
     @Test
-    void addOrderTest() {
+    void addOrderTest() throws ProductNotAvailableException {
         //GIVEN
         ShopService shopService = new ShopService();
         List<String> productsIds = List.of("1");
@@ -24,20 +24,23 @@ class ShopServiceTest {
     }
 
     @Test
-    void addOrderTest_whenInvalidProductId_expectNull() {
+    void addOrderTest_whenInvalidProductId_expectException() {
         //GIVEN
         ShopService shopService = new ShopService();
         List<String> productsIds = List.of("1", "2");
 
-        //WHEN
-        Order actual = shopService.addOrder(productsIds);
-
         //THEN
-        assertNull(actual);
+        try {
+            //WHEN
+            shopService.addOrder(productsIds);
+            fail("Expected ProductNotAvailableException is not thrown, even though product 2 was ordered, which deos not exist.");
+        } catch (ProductNotAvailableException e ) {
+            System.out.println(e.getMessage());
+        }
     }
 
     @Test
-    void getOrdersByOrderStatusTest() {
+    void getOrdersByOrderStatusTest() throws ProductNotAvailableException {
         // GIVEN
         ShopService shopService = new ShopService();
         OrderStatus statusProcessing = OrderStatus.PROCESSING;
@@ -61,7 +64,7 @@ class ShopServiceTest {
     }
 
     @Test
-    void updateOrderTest_whenNewStatusGiven_thenReturnUpdateOrderHasTheNewStatus() {
+    void updateOrderTest_whenNewStatusGiven_thenReturnUpdateOrderHasTheNewStatus() throws ProductNotAvailableException {
         // GIVEN
         ShopService shopService = new ShopService();
         List<String> productsIds = List.of("1");
@@ -79,7 +82,7 @@ class ShopServiceTest {
     }
 
     @Test
-    void updateOrderTest_whenStatusFromProcessingToInDelivery_thenOrderWithProcessingDoesNotExist() {
+    void updateOrderTest_whenStatusFromProcessingToInDelivery_thenOrderWithProcessingDoesNotExist() throws ProductNotAvailableException {
         // GIVEN
         ShopService shopService = new ShopService();
         List<String> productsIds = List.of("1");
