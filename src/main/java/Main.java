@@ -1,3 +1,4 @@
+import java.time.ZonedDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -13,9 +14,9 @@ public class Main {
 
         Optional<Product> productById = productRepo.getProductById("5");
 
+        Order order3 = new Order("3", Arrays.asList(product1, product2), OrderStatus.PROCESSING, ZonedDateTime.now());
+        Order order4 = new Order("4", List.of(product1), OrderStatus.PROCESSING, ZonedDateTime.now());
 
-        Order order3 = new Order("3", Arrays.asList(product1, product2), OrderStatus.PROCESSING);
-        Order order4 = new Order("4", List.of(product1), OrderStatus.PROCESSING);
 
         OrderListRepo orderListRepo = new OrderListRepo();
         OrderMapRepo orderMapRepo = new OrderMapRepo();

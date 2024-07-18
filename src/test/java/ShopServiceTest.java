@@ -1,5 +1,6 @@
 import org.junit.jupiter.api.Test;
 
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -7,6 +8,8 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ShopServiceTest {
+
+    private static final ZonedDateTime TEST_TIME_OF_ORDER = ZonedDateTime.now();
 
     @Test
     void addOrderTest() throws ProductNotAvailableException {
@@ -18,7 +21,7 @@ class ShopServiceTest {
         Order actual = shopService.addOrder(productsIds);
 
         //THEN
-        Order expected = new Order("-1", List.of(new Product("1", "Apfel")), OrderStatus.PROCESSING);
+        Order expected = new Order("-1", List.of(new Product("1", "Apfel")), OrderStatus.PROCESSING, TEST_TIME_OF_ORDER);
         assertEquals(expected.products(), actual.products());
         assertNotNull(expected.id());
     }
