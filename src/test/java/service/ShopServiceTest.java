@@ -1,8 +1,13 @@
+package service;
+
+import exception.ProductNotAvailableException;
+import model.Order;
+import model.OrderStatus;
+import model.Product;
 import org.junit.jupiter.api.Test;
 
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -36,7 +41,7 @@ class ShopServiceTest {
         try {
             //WHEN
             shopService.addOrder(productsIds);
-            fail("Expected ProductNotAvailableException is not thrown, even though product 2 was ordered, which deos not exist.");
+            fail("Expected exception.ProductNotAvailableException is not thrown, even though product 2 was ordered, which deos not exist.");
         } catch (ProductNotAvailableException e ) {
             System.out.println(e.getMessage());
         }

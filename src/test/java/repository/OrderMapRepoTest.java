@@ -1,3 +1,8 @@
+package repository;
+
+import model.Order;
+import model.OrderStatus;
+import model.Product;
 import org.junit.jupiter.api.Test;
 
 import java.time.ZonedDateTime;
